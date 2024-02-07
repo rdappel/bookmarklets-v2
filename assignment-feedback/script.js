@@ -127,7 +127,7 @@ localStorage.setItem(key, rightToLeft)
 const feedbackKeys = {
 	"general": getKey(`general`),
 	"course": getKey(`course(${courseId})`),
-	"assignment": getKey(`assignment(${courseId}/${assignmentId})`)
+	"assignment": getKey(`assignment(${courseId}///${assignmentId})`)
 }
 
 const expandButton = getExpandButton()
