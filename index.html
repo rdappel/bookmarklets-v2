@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: large;
+		}
+
+		#page {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+		}
+		#links {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		#links a {
+			color: #fff;
+			background-color: #333;
+			margin: 10px;
+			padding: 10px;
+			border: 1px solid #000;
+			border-radius: 5px;
+			text-decoration: none;
+			width: 200px;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="page">
+		<h1>Bookmarklets</h1>
+		<p>Drag these links to your bookmarks bar to use the bookmarklets.</p>
+		<div id="links"></div>
+	</div>
+</body>
+
+<script>
+
+const scripts = [
+	'full-credit',
+	'assignment-feedback'
+]
+
+const formatName = name => name.split('-')
+	.map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
+
+
+scripts.forEach(async name => {
+	const response = await fetch(`./${name}/script.min.js`)
+	const text = await response.text()
+	const script = `javascript:(async ()=>{${text}})();`
+	const link = document.createElement('a')
+	link.href = script
+	link.textContent = formatName(name)
+	document.getElementById('links').appendChild(link)
+})
+
+</script>
+</html>
