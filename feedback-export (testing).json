@@ -1,0 +1,94 @@
+[
+  [
+    "feedback-assignment(C# Introduction to Programming///Assignment 5 - Pet Clinic (Due Week 8))",
+    "[\"You're missing the part where clicking on a service shows the price of that item next to it. Add that and resubmit. Let me know if you have any questions.\",\"Hi {{name}}, you're not allowed to have a calculate button for this assignment. Re-read the instructions and let me know if you have any questions. Resubmit and I'll regrade it.\",\"Hey {{name}} You're not calculating the total... please take a closer look at the instructions and finish that part, then resubmit. Feel free to reach out if you have any questions.\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Exam 4 - Practical)",
+    "[\"Claculation isn't correct -10\"]"
+  ],
+  [
+    "feedback-assignment(Data Access for Programmers///Assignment 9 – Arrays and One-to-Many Relationships)",
+    "[\"Since the player name is split (first/last), you should probably have keept them separate in your ERD.\"]"
+  ],
+  [
+    "feedback-assignment(Data Access for Programmers///Assignment 4 - Single Table ERDs and Databases)",
+    "[\"Height and weight shouldn't be VARCHAR, because I might want to use math. For example, what if I wanted to know which team has the tallest players?\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Assignment 6 - Sales Commission (Due Week 9))",
+    "[\"This isn't quite right... If the user doesn't enter either part of the name, the commission line should just say \\\"commission.\\\" Fix and resubmit.\"]"
+  ],
+  [
+    "feedback-assignment(Data Access for Programmers///Assignment 6 - Group By Queries)",
+    "[\"#1 isn't correct. Try it again. (Just the type, no duplicates)\",\"#2 isn't ordered correctly\",\"#2 is ordered by the wrong column, but I'll let it slide.\"]"
+  ],
+  [
+    "feedback-course(Data Access for Programmers)",
+    "[\"Hey {{name}}, it looks like you submitted the wrong assignment. Please resubmit asap.\"]"
+  ],
+  [
+    "feedback-assignment(Data Access for Programmers///Assignment 11 - Advanced Joins, Views, and Stored Procedures)",
+    "[\"Your procedure isn't correct... check what happens if you run it using someone elses name... like:\\r\\n\\r\\nCALL spEmailByFirstName(\\\"Bill\\\");\"]"
+  ],
+  [
+    "feedback-course(C# Introduction to Programming)",
+    "[\"I need the whole solution folder zipped, not just the .sln file. Please resubmit.\",\"You can finish and resubmit if you want.\",\"You accidentally submitted the wrong assignment... Try again.\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Assignment 10 - Sales Tax (Due Week 16))",
+    "[\"This doesn't meet the specifications... You need a Transaction class. Reread the instructions and let me know if you have any questions.\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Assignment 4 - FVTC Book Sales (Due Week 6))",
+    "[\"I need you to calculate the discount amount and the total after the discount. So if the user enters 200, the discount would be $50, and the total would be $150.\"]"
+  ],
+  [
+    "feedback-assignment(Computer Programming C++///Assignment 1 - Console I/O (Due Week 2))",
+    "[\"It says that you need to use a loop... fix and resubmit.\"]"
+  ],
+  [
+    "feedback-assignment(Computer Programming C++///Assignment 4 - Salary (Due Week 7))",
+    "[\"You're missing the part where you calculate the gross pay for all employees. Add that part and then resubmit.\",\"Your struct is not right. (You're not allowed to have gross pay in there.) Fix and resubmt.... Let me know if you have any questions regarding the instructions.\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Exam 3 - Practical)",
+    "[\"You forgot to check for negative numbers.\"]"
+  ],
+  [
+    "feedback-assignment(Computer Programming C++///Assignment 5 - Tic Tac Toe (Due Week 11))",
+    "[\"Hey {{name}}, You need to turn in your peer review.\"]"
+  ],
+  [
+    "feedback-assignment(Computer Programming C++///Lab Exercise 4 - Peer Review (Due Week 12))",
+    "[\"Good feedback {{name}}, nice job!\"]"
+  ],
+  [
+    "feedback-assignment(Data Access for Programmers///Assignment 15 - Final Project)",
+    "[\"ERD (15/15): Nice job.\\r\\n\\r\\nBusiness Rules (/10): \\r\\n\\r\\nDatabase Script (10/10): Looks good.\\r\\n\\r\\nQueries (/50):\\r\\n\\r\\nAPI (15/15): Looks good!\\r\\n\\r\\nExtra Credit (0/0): N/A\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Exam 2 - Practical)",
+    "[\"It crashes if I enter text instead of a number. -5\",\"num1, num2, etc... are not descriptive variable names. -1\",\"Not submitted correctly... please resubmit asap.\"]"
+  ],
+  [
+    "feedback-general",
+    "[\"2.0.1\"]"
+  ],
+  [
+    "feedback-course(Computer Programming C++)",
+    "[\"It looks like I don't have access to your repo... add me (appel@fvtc.edu) and resubmit.\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Assignment 9 - Salary (Due Week 14))",
+    "[\"Hi {{name}}, you also need to calculate the total salary each day. So on day two you make $.02, but you made a penny yesterday, so the total would be $0.03.\"]"
+  ],
+  [
+    "feedback-assignment(C# Introduction to Programming///Assignment 5 - FVTC Book Sales (Due Week 6))",
+    "[\"TESTING\"]"
+  ],
+  [
+    "feedback-assignment(Data Access for Programmers///Assignment 8 - Attribute Types)",
+    "[\"One of your \\\"composite\\\" values isn't actually composite... fix that and I'll update your score.\"]"
+  ]
+]
