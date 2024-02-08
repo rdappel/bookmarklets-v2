@@ -36,12 +36,11 @@
 			const newKey = getItemKey(course, assignment, type)
 			if (!newKey) return
 
-			const newValues =  [ safeJsonParse(values) ].flat().map(text => {
-				return text.replaceAll('{{firstName}}', '{{name}}')
-			})
+			const newValues = JSON.stringify([ safeJsonParse(values) ].flat())
+				.replaceAll('{{firstName}}', '{{name}}')
 
 			return [ newKey, newValues ]
-		})
+		}).filter(Boolean)
 	}
 
 
