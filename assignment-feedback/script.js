@@ -32,6 +32,12 @@ const version = '2.0.1'
 const getKey = name => `feedback-${name || ''}`
 localStorage.setItem(getKey('version'), version)
 
+const feedbackPanelId = getKey('panel')
+const existingPanel = document.querySelector(`#${feedbackPanelId}`)
+const isPanelVisible = () => existingPanel && window.getComputedStyle(existingPanel).display !== 'none'
+
+let generate = () => { }
+
 const checkSvg = '<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 24 24"><path d="M 20.292969 5.2929688 L 9 16.585938 L 4.7070312 12.292969 L 3.2929688 13.707031 L 9 19.414062 L 21.707031 6.7070312 L 20.292969 5.2929688 z"></path></svg>'
 const deleteSvg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" version="1.1" id="Capa_1" width="16" height="16" viewBox="0 0 482.428 482.429" xml:space="preserve"><g><g><path d="M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098    c-30.39,0-55.111,24.728-55.111,55.117v2.828c0,23.223,14.46,43.1,34.83,51.199v260.369c0,30.39,24.724,55.117,55.112,55.117    h210.236c30.389,0,55.111-24.729,55.111-55.117V166.944c20.369-8.1,34.83-27.977,34.83-51.199v-2.828    C436.274,82.527,411.551,57.799,381.163,57.799z M241.214,26.139c19.037,0,34.927,13.645,38.443,31.66h-76.879    C206.293,39.783,222.184,26.139,241.214,26.139z M375.305,427.312c0,15.978-13,28.979-28.973,28.979H136.096    c-15.973,0-28.973-13.002-28.973-28.979V170.861h268.182V427.312z M410.135,115.744c0,15.978-13,28.979-28.973,28.979H101.266    c-15.973,0-28.973-13.001-28.973-28.979v-2.828c0-15.978,13-28.979,28.973-28.979h279.897c15.973,0,28.973,13.001,28.973,28.979    V115.744z"/><path d="M171.144,422.863c7.218,0,13.069-5.853,13.069-13.068V262.641c0-7.216-5.852-13.07-13.069-13.07    c-7.217,0-13.069,5.854-13.069,13.07v147.154C158.074,417.012,163.926,422.863,171.144,422.863z"/><path d="M241.214,422.863c7.218,0,13.07-5.853,13.07-13.068V262.641c0-7.216-5.854-13.07-13.07-13.07    c-7.217,0-13.069,5.854-13.069,13.07v147.154C228.145,417.012,233.996,422.863,241.214,422.863z"/><path d="M311.284,422.863c7.217,0,13.068-5.853,13.068-13.068V262.641c0-7.216-5.852-13.07-13.068-13.07    c-7.219,0-13.07,5.854-13.07,13.07v147.154C298.213,417.012,304.067,422.863,311.284,422.863z"/></g></g></svg>'
 const zeroSvg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 122.88" width="16" height="16" style="enable-background:new 0 0 122.88 122.88" xml:space="preserve"><g><path d="M61.44,0c16.97,0,32.33,6.88,43.44,18c11.12,11.12,18,26.48,18,43.44c0,33.93-27.51,61.44-61.44,61.44 c-16.97,0-32.33-6.88-43.44-18C6.88,93.77,0,78.41,0,61.44C0,44.47,6.88,29.11,18,18C29.11,6.88,44.47,0,61.44,0L61.44,0z M41.4,61.23c0-9.32,1.68-15.84,5.04-19.56c3.36-3.72,8.47-5.58,15.33-5.58c3.3,0,6.02,0.41,8.13,1.22 c2.12,0.81,3.85,1.87,5.18,3.17c1.35,1.3,2.4,2.67,3.16,4.11c0.78,1.44,1.39,3.12,1.86,5.04c0.91,3.65,1.37,7.47,1.37,11.44 c0,8.89-1.51,15.4-4.52,19.53c-3,4.12-8.19,6.19-15.55,6.19c-4.12,0-7.46-0.66-10-1.98c-2.55-1.31-4.62-3.24-6.26-5.79 c-1.18-1.8-2.1-4.27-2.76-7.4C41.73,68.49,41.4,65.03,41.4,61.23L41.4,61.23z M54.9,61.26c0,6.23,0.55,10.5,1.66,12.79 c1.11,2.28,2.71,3.43,4.81,3.43c1.38,0,2.58-0.48,3.6-1.45c1.02-0.97,1.76-2.51,2.24-4.6c0.48-2.1,0.72-5.37,0.72-9.8 c0-6.51-0.55-10.88-1.66-13.13c-1.11-2.24-2.76-3.36-4.97-3.36c-2.26,0-3.88,1.14-4.89,3.43C55.4,50.84,54.9,55.08,54.9,61.26 L54.9,61.26z M100.75,22.13C90.69,12.07,76.79,5.85,61.44,5.85c-15.35,0-29.25,6.22-39.31,16.28C12.07,32.19,5.85,46.09,5.85,61.44 c0,15.35,6.22,29.25,16.28,39.31c10.06,10.06,23.96,16.28,39.31,16.28c30.7,0,55.59-24.89,55.59-55.59 C117.03,46.09,110.81,32.19,100.75,22.13L100.75,22.13z"/></g></svg>'
@@ -45,51 +51,108 @@ const download = (content, filename, type = 'text/plain') => {
 	a.click()
 }
 
-window.heldKeys = window.heldKeys || { }
-document.addEventListener('keydown', e => window.heldKeys[e.code] = true)
-document.addEventListener('keyup', e => delete window.heldKeys[e.code])
+document.addEventListener('keydown', ({ code }) => { if (!window.heldKey) window.heldKey = code })
+document.addEventListener('keyup', () => window.heldKey = null)
 
-if (window.heldKeys['KeyE']) {
-	window.heldKeys = { }
+const exportFeedback = () => {
 	const content = Object.entries({...localStorage}).filter(([k]) => k.startsWith(getKey()))
 	download(JSON.stringify(content, null, 2), 'feedback.json', 'application/json')
-	return
+	return { exit: true }
 }
 
-let afterImport = null
-let importing = false
-if (window.heldKeys['KeyI']) {
-	importing = true
-	window.heldKeys = { }
+const deleteAllFeedback = () => {
+	if (confirm('Are you sure you want to delete all feedback? This cannot be undone!')) {
+		const keys = Object.keys(localStorage)
+		keys.forEach(key => {
+			if (!key.startsWith(getKey()) || key === getKey('version')) return 
+			localStorage.removeItem(key)
+		})
+		return { callback: generate, togglePanel: false }
+	}
+	return { togglePanel: false }
+}
+
+const exportAliases = () => {
+	const aliases = JSON.parse(localStorage.getItem('aliases')) || { }
+	const content = Object.entries({...aliases}).map(([k, v]) => `${k}: ${v}`).join('\n')
+	download(content, 'aliases.txt')
+	return { exit: true }
+}
+
+const toggleRightToLeft = () => {
+	const rightToLeft = localStorage.getItem(getKey('right-to-left')) === 'true'
+	localStorage.setItem(getKey('right-to-left'), rightToLeft ? 'false' : 'true')
+	return { callback: generate, togglePanel: false }
+}
+
+const importFeedback = () => {
 	const dropPanel = document.createElement('div')
 	dropPanel.classList.add('drop')
 	const p = document.createElement('p')
 	p.textContent = 'Drop feedback.json here.'
 	dropPanel.append(p)
 	document.body.append(dropPanel)
+
+	const safeParse = text => {
+		try { return JSON.parse(text) }
+		catch (e) { return null }
+	}
 	
 	const onDrop = ('drop', async e => {
 		e.preventDefault()
 		e.bubbles = false
-		const file = e.dataTransfer.files[0]
-		const text = await file.text()
-		const json = JSON.parse(text)
+
+		const { dataTransfer } = e
+		if (!dataTransfer) return
+		
+		const mergeWithLocalStorage = ([key, value]) => {
+			const existing = safeParse(localStorage.getItem(key)) || [ ]
+			const newValue = safeParse(value) || [ ]
+			localStorage.setItem(key, JSON.stringify([...existing, ...newValue]))
+		}
+
+		if (dataTransfer.files.length > 0) {
+			const promises = [ ...dataTransfer.files ].map(async file => {
+				const text = await file.text()
+				const json = safeParse(text)
+				json.forEach(mergeWithLocalStorage)
+			})
+
+			await Promise.all(promises)
+		}
+		else {
+			//handle url drop
+			const url = dataTransfer.getData('text')
+			const response = await fetch(url)
+			const text = await response.text()
+			const json = safeParse(text)
+			json.forEach(mergeWithLocalStorage)
+		}
+
 		dropPanel.remove()
-
-		// merge with existing
-		json.forEach(([key, value]) => {
-			const existing = JSON.parse(localStorage.getItem(key)) || [ ]
-			localStorage.setItem(key, JSON.stringify([...existing, ...value]))
-		})
-
-		if (afterImport) afterImport()
-		importing = false
+		generate()
 	})
 
 	dropPanel.addEventListener('dragover', e => e.preventDefault())
 	dropPanel.addEventListener('drop', onDrop)
 	dropPanel.addEventListener('click', () => dropPanel.remove())
+	return { togglePanel: false }
 }
+
+const shortcuts = {
+	'KeyE': exportFeedback,
+	'KeyD': deleteAllFeedback,
+	'KeyA': exportAliases,
+	'KeyI': importFeedback,
+	'KeyR': toggleRightToLeft
+}
+
+const f = shortcuts[window.heldKey]
+if (f) window.heldKey = null
+const { exit, callback, togglePanel } = isPanelVisible() && f?.() || {}
+
+console.log({ exit, callback, togglePanel })
+if (exit) return
 
 /* STYLES */
 const css = `
@@ -117,12 +180,9 @@ if (style.styleSheet) style.styleSheet.cssText = css
 else style.appendChild(document.createTextNode(css))
 document.querySelector('head').appendChild(style)
 
-
-const feedbackPanelId = getKey('panel')
-const existing = document.querySelector(`#${feedbackPanelId}`)
-if (existing && !importing) {
-	const { display } = window.getComputedStyle(existing)
-	existing.style.display = display === 'none' ? 'block' : 'none'
+if (existingPanel && togglePanel !== false) {
+	const { display } = window.getComputedStyle(existingPanel)
+	existingPanel.style.display = display === 'none' ? 'block' : 'none'
 	return
 }
 
@@ -163,7 +223,7 @@ const setEndOfContenteditable = editableElement => {
 
 const uppercase = text => `${text[0].toUpperCase()}${text.slice(1)}`
 
-const panel = existing || document.createElement('div')
+const panel = existingPanel || document.createElement('div')
 panel.innerHTML = ''
 panel.id = feedbackPanelId
 panel.classList.add('feedback-panel')
@@ -247,7 +307,7 @@ const displayFeedbackItem = (unformattedText, parent, groupKey) => {
 		const index = feedback.indexOf(unformattedText)
 		if (index < 0) return
 		updateFeedback(groupKey, [...feedback.slice(0, index), text, ...feedback.slice(index + 1)])
-		generateFeedbackPanels()
+		generate()
 	})
 
 	const deleteA = document.createElement('a')
@@ -298,11 +358,10 @@ const generateFeedbackPanels = () => {
 			displayFeedbackItem(text.trim(), items)
 			updateFeedback(key, [...getFeedback(key), text])
 		})
-
 	})
 }
 
-generateFeedbackPanels()
-afterImport = generateFeedbackPanels
+generate = generateFeedbackPanels
+generate()
 
 })()

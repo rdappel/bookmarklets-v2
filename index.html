@@ -4,19 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Blackboard Bookmarklets</title>
 	<style>
 		body {
-			font-family: Arial, sans-serif;
-			font-size: large;
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			font-size: 1.3rem;
 			color: #222;
+			background-color: #ffffff;
 		}
 
 		#page {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-
 		}
 
 		#links {
@@ -25,20 +25,45 @@
 			align-items: center;
 		}
 
+		h1 {
+			margin: 66px 0 0 0;
+		}
+
+		#links > div {
+			padding: 16px;
+			border: 1px solid #222;
+			border-radius: 5px;
+			width: 560px;
+			text-align: justify;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+			margin: 8px;
+			background-color: #f5f5f5;
+			font-size: 1.2rem;
+		}
+
+		#links span {
+			display: block
+		}
+
 		#links a {
 			color: #fff;
 			background-color: #222;
-			margin: 10px;
-			padding: 10px;
+			padding: 16px;
 			border: 1px solid #222;
 			border-radius: 5px;
 			text-decoration: none;
-			width: 200px;
+			width: 280px;
 			text-align: center;
 			transition: all 0.3s ease-in-out;
+			font-weight: bold;
+			font-size: 1.4rem;
+			cursor: grab;
 		}
 
-		#links a:hover {
+		a:hover {
 			background-color: rgb(194, 8, 8);
 		}
 		
@@ -98,33 +123,36 @@
 				fill="currentColor" class="octo-body"></path>
 		</svg></a>
 	<div id="page">
-		<h1>Bookmarklets</h1>
+		<h1>Blackboard Bookmarklets</h1>
 		<p>Drag these links to your bookmarks bar to use the bookmarklets.</p>
-		<div id="links"></div>
+		<div id="links">
+			<div id="full-credit">
+				<a>Full Credit</a>
+				<span>This bookmarklet will give full credit for the current assignment.</span>
+			</div>
+			<div id="assignment-feedback">
+				<a>Assignment Feedback</a>
+				<span>This bookmarklet will open a feedback panel, to save and inject commonly used feedback. A tutorial video will be uploaded soon.</span>
+			</div>
+			<div id="feedback-export-v1">
+				<a>Feedback Export V1</a>
+				<span>This bookmarklet is for anyone using the old feedback bookmarklet. It will export all of your feedback into a format that can be imported into the new assignment feedback bookmarklet.</span>
+			</div>
+		</div>
 	</div>
 </body>
 
 <script>
 
-	const scripts = [
-		'full-credit',
-		'assignment-feedback',
-		'feedback-export-v1'
-	]
-
-	const formatName = name => name.split('-')
-		.map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
-
-
-	scripts.forEach(async name => {
-		const response = await fetch(`./${name}/script.min.js`)
-		const text = await response.text()
-		const script = `javascript:(async ()=>{${text}})();`
-		const link = document.createElement('a')
-		link.href = script
-		link.textContent = formatName(name)
-		document.getElementById('links').appendChild(link)
-	})
+const elements = document.querySelectorAll('#links > div')
+elements.forEach(async element => {
+	const { id } = element
+	const response = await fetch(`./${id}/script.min.js`)
+	const text = await response.text()
+	const script = `javascript:${text}`
+	const link = element.querySelector('a')
+	link.href = script
+})
 
 </script>
 
