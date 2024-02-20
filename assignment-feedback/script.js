@@ -32,9 +32,13 @@ const version = '2.0.1'
 const getKey = name => `feedback-${name || ''}`
 localStorage.setItem(getKey('version'), version)
 
+const isPanelVisible = panel => panel && window.getComputedStyle(panel).display !== 'none'
+
 const feedbackPanelId = getKey('panel')
-const existingPanel = document.querySelector(`#${feedbackPanelId}`)
-const isPanelVisible = () => existingPanel && window.getComputedStyle(existingPanel).display !== 'none'
+const feedbackPanel = document.querySelector(`#${feedbackPanelId}`)
+
+const settingsPanelId = getKey('settings-panel')
+const settingsPanel = document.querySelector(`#${settingsPanelId}`)
 
 let generate = () => { }
 
@@ -149,7 +153,7 @@ const shortcuts = {
 
 const f = shortcuts[window.heldKey]
 if (f) window.heldKey = null
-const { exit, callback, togglePanel } = isPanelVisible() && f?.() || {}
+const { exit, callback, togglePanel } = isPanelVisible(feedbackPanel) && f?.() || {}
 
 console.log({ exit, callback, togglePanel })
 if (exit) return
@@ -161,13 +165,14 @@ const css = `
 #feedback-panel a:hover{text-decoration:underline;}
 #feedback-panel-container{display:flex;flex-direction:row;justify-content:space-between;align-content:stretch;gap:12px;width:100%;height:calc(100% - 24px);border:0;}
 .feedback-panel-inner {background-color:#eee;padding:12px;flex-grow:1;min-width:25%;height:100%}
-.feedback-panel-inner .items {min-height:75%;overflow-y:scroll;margin-bottom:6px;}
+.feedback-panel-inner .items {min-height:75%;height:75%;overflow-y:scroll;margin-bottom:6px;}
 .feedback-panel-inner p {margin:2px;}
 .feedback-panel-inner p a {margin-right:1em;}
 .feedback-panel-inner .title {font-weight:bold;border-bottom:1px solid black;padding-bottom:2px;margin-bottom:4;text-align:center;}
 .feedback-panel-inner button {margin-top:2px;margin-right:2px;}
 .drop {position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;font-size:2em;z-index:10002;}
 .drop p {background-color:white;padding:24px;border:1px solid black;}
+.settings-panel {position:fixed;bottom:0;right:0;width:400px;height:100px;background-color:white;border:1px solid darkgray;z-index:10001;}
 `
 /* END STYLES */
 
@@ -180,11 +185,12 @@ if (style.styleSheet) style.styleSheet.cssText = css
 else style.appendChild(document.createTextNode(css))
 document.querySelector('head').appendChild(style)
 
-if (existingPanel && togglePanel !== false) {
-	const { display } = window.getComputedStyle(existingPanel)
-	existingPanel.style.display = display === 'none' ? 'block' : 'none'
+if (feedbackPanel && togglePanel !== false) {
+	feedbackPanel.style.display = isPanelVisible(feedbackPanel) ? 'block' : 'none'
 	return
 }
+
+
 
 const key = getKey('right-to-left')
 const rightToLeft = localStorage.getItem(key) || 'false'
@@ -223,11 +229,27 @@ const setEndOfContenteditable = editableElement => {
 
 const uppercase = text => `${text[0].toUpperCase()}${text.slice(1)}`
 
-const panel = existingPanel || document.createElement('div')
+const panel = feedbackPanel || document.createElement('div')
 panel.innerHTML = ''
 panel.id = feedbackPanelId
 panel.classList.add('feedback-panel')
-document.body.appendChild(panel)
+document.body.append(panel)
+
+const settingsPanelDiv = document.createElement('div')
+settingsPanelDiv.id = settingsPanelId
+settingsPanelDiv.classList.add('settings-panel')
+settingsPanelDiv.style.display = 'none'
+panel.append(settingsPanelDiv)
+
+const settingsButton = document.createElement('button')
+settingsButton.innerHTML = '⚙️'
+settingsButton.title = 'Settings'
+settingsButton.addEventListener('click', () => {
+	const display = window.getComputedStyle(settingsPanelDiv).display
+	settingsPanelDiv.style.display = display === 'none' ? 'block' : 'none'
+})
+
+settingsPanelDiv.append(settingsButton)
 
 const container = document.createElement('div')
 container.id = 'feedback-panel-container'
