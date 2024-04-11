@@ -169,7 +169,7 @@ if (exit) return
 /* STYLES */
 const css = `
 #feedback-panel{font-family:Arial,sans-serif;background-color:white;position:fixed;left:0;right:412px;bottom:0;height:30%;border:1px solid darkgray;padding:12px 48px;z-index:10001;}
-#feedback-panel a{underline;cursor:pointer;}
+#feedback-panel a{cursor:pointer;}
 #feedback-panel a:hover{text-decoration:underline;}
 #feedback-panel-container{display:flex;flex-direction:row;justify-content:space-between;align-content:stretch;gap:12px;width:100%;height:calc(100% - 24px);border:0;}
 .feedback-panel-inner {background-color:#eee;padding:12px;flex-grow:1;min-width:25%;height:100%}
@@ -183,8 +183,6 @@ const css = `
 .settings-panel {position:fixed;top:0;right:0;width:386px;height:100%;background-color:white;border-left:1px solid black;z-index:10000;padding:12px;display:none;flex-direction:column;gap:12px;}
 #settings-button {position:absolute;top:0;right:0;width:40px;height:40px;border:0;border-left:1px solid rgba(0,0,0,0.25);border-bottom:1px solid rgba(0,0,0,0.25);padding:.5rem;}
 #settings-button:hover {cursor:pointer;}
-
-.
 `
 /* END STYLES */
 
