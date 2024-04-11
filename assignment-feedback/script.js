@@ -55,6 +55,10 @@ const download = (content, filename, type = 'text/plain') => {
 	a.click()
 }
 
+
+const getIsRightToLeft = () => localStorage.getItem(getKey('right-to-left')) === 'true'
+const getIsNewestFirst = () => localStorage.getItem(getKey('newest-first')) === 'true'
+
 document.addEventListener('keydown', ({ code }) => { if (!window.heldKey) window.heldKey = code })
 document.addEventListener('keyup', () => window.heldKey = null)
 
@@ -84,8 +88,12 @@ const exportAliases = () => {
 }
 
 const toggleRightToLeft = () => {
-	const rightToLeft = localStorage.getItem(getKey('right-to-left')) === 'true'
-	localStorage.setItem(getKey('right-to-left'), rightToLeft ? 'false' : 'true')
+	localStorage.setItem(getKey('right-to-left'), getIsRightToLeft() ? 'false' : 'true')
+	return { callback: generate, togglePanel: false }
+}
+
+const toggleNewestFirst = () => {
+	localStorage.setItem(getKey('newest-first'), getIsNewestFirst() ? 'true' : 'false')
 	return { callback: generate, togglePanel: false }
 }
 
@@ -148,14 +156,14 @@ const shortcuts = {
 	'KeyD': deleteAllFeedback,
 	'KeyA': exportAliases,
 	'KeyI': importFeedback,
-	'KeyR': toggleRightToLeft
+	'KeyR': toggleRightToLeft,
+	'KeyN': toggleNewestFirst
 }
 
 const f = shortcuts[window.heldKey]
 if (f) window.heldKey = null
-const { exit, callback, togglePanel } = isPanelVisible(feedbackPanel) && f?.() || {}
+const { exit, togglePanel } = isPanelVisible(feedbackPanel) && f?.() || {}
 
-console.log({ exit, callback, togglePanel })
 if (exit) return
 
 /* STYLES */
@@ -172,7 +180,11 @@ const css = `
 .feedback-panel-inner button {margin-top:2px;margin-right:2px;}
 .drop {position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.5);display:flex;justify-content:center;align-items:center;font-size:2em;z-index:10002;}
 .drop p {background-color:white;padding:24px;border:1px solid black;}
-.settings-panel {position:fixed;bottom:0;right:0;width:400px;height:100px;background-color:white;border:1px solid darkgray;z-index:10001;}
+.settings-panel {position:fixed;top:0;right:0;width:386px;height:100%;background-color:white;border-left:1px solid black;z-index:10000;padding:12px;display:none;flex-direction:column;gap:12px;}
+#settings-button {position:absolute;top:0;right:0;width:40px;height:40px;border:0;border-left:1px solid rgba(0,0,0,0.25);border-bottom:1px solid rgba(0,0,0,0.25);padding:.5rem;}
+#settings-button:hover {cursor:pointer;}
+
+.
 `
 /* END STYLES */
 
@@ -186,11 +198,9 @@ else style.appendChild(document.createTextNode(css))
 document.querySelector('head').appendChild(style)
 
 if (feedbackPanel && togglePanel !== false) {
-	feedbackPanel.style.display = isPanelVisible(feedbackPanel) ? 'block' : 'none'
+	feedbackPanel.style.display = isPanelVisible(feedbackPanel) ? 'none' : 'block'
 	return
 }
-
-
 
 const key = getKey('right-to-left')
 const rightToLeft = localStorage.getItem(key) || 'false'
@@ -235,21 +245,43 @@ panel.id = feedbackPanelId
 panel.classList.add('feedback-panel')
 document.body.append(panel)
 
-const settingsPanelDiv = document.createElement('div')
+const settingsPanelDiv = settingsPanel || document.createElement('div')
 settingsPanelDiv.id = settingsPanelId
 settingsPanelDiv.classList.add('settings-panel')
 settingsPanelDiv.style.display = 'none'
-panel.append(settingsPanelDiv)
+document.body.append(settingsPanelDiv)
+
 
 const settingsButton = document.createElement('button')
 settingsButton.innerHTML = '⚙️'
 settingsButton.title = 'Settings'
+settingsButton.id = 'settings-button'
 settingsButton.addEventListener('click', () => {
 	const display = window.getComputedStyle(settingsPanelDiv).display
-	settingsPanelDiv.style.display = display === 'none' ? 'block' : 'none'
+	settingsPanelDiv.style.display = display === 'none' ? 'flex' : 'none'
 })
+panel.append(settingsButton)
 
-settingsPanelDiv.append(settingsButton)
+const settings = {
+	'Toggle Right to Left': toggleRightToLeft,
+	'Toggle Newest First': toggleNewestFirst,
+	'Import Feedback': importFeedback,
+	'Export Feedback': exportFeedback,
+	'Delete All Feedback': deleteAllFeedback,
+	'Export Aliases': exportAliases
+}
+
+Object.entries(settings).forEach(([name, f]) => {
+	const button = document.createElement('button')
+	button.textContent = name
+	button.addEventListener('click', () => {
+		const { exit, callback, togglePanel } = f()
+		if (exit) return
+		if (callback) callback()
+		if (togglePanel !== false) settingsPanelDiv.style.display = 'none'
+	})
+	settingsPanelDiv.append(button)
+})
 
 const container = document.createElement('div')
 container.id = 'feedback-panel-container'
@@ -257,6 +289,7 @@ panel.appendChild(container)
 
 const feedbackInputPanel = await getFeedbackPanel()
 
+// todo: append front or back based on settings
 const displayFeedbackItem = (unformattedText, parent, groupKey) => {
 	const name = getAlias(getStudentName())
 	const nameTag = '{{name}}'
@@ -282,7 +315,9 @@ const displayFeedbackItem = (unformattedText, parent, groupKey) => {
 	}
 
 	const p = document.createElement('p')
-	parent.append(p)
+
+	if (getIsNewestFirst()) parent.prepend(p)
+	else parent.append(p)
 
 	const a = document.createElement('a')
 	a.textContent = formattedText
@@ -347,11 +382,13 @@ const displayFeedbackItem = (unformattedText, parent, groupKey) => {
 	})
 }
 
+
 const generateFeedbackPanels = () => {
+	console.log('Generating feedback panels')
 	container.innerHTML = ''
 
 	const keys = Object.keys(feedbackKeys)
-	;(rightToLeft === 'true' ? keys.reverse() : keys).forEach(key => {
+	;(getIsRightToLeft() ? keys.reverse() : keys).forEach(key => {
 		const div = document.createElement('div')
 		div.classList.add('feedback-panel-inner')
 		container.append(div)
