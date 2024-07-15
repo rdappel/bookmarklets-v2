@@ -23,7 +23,7 @@
 
 	while (true) {
 		const count = prompt('How many bookmarks do you want to add?');
-		if (!count) continue;
+		if (!count) return;
 
 		[...Array(Number(count)).keys()].forEach(createBookmark);
 	}
