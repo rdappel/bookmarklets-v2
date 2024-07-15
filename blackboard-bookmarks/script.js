@@ -21,6 +21,12 @@
 		else if (document.all) window.external.AddFavorite(url, title);
 	}
 
+	// only works on course page
+	const url = window.location.pathname
+	if (!url.includes('/course')) {
+		return alert('This script only works on the course pages.');
+	}
+
 	while (true) {
 		const count = prompt('How many bookmarks do you want to add?');
 		if (!count) return;
