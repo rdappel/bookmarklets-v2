@@ -62,11 +62,20 @@
 			font-size: 1.4rem;
 			cursor: grab;
 		}
+		
+		#links .depricated {
+			/* lower the opacity of depricated bookmarklets */
+			opacity: 0.6;
+		}
+
+		#links .depricated a {
+			cursor: not-allowed;
+		}
 
 		a:hover {
 			background-color: rgb(194, 8, 8);
 		}
-		
+
 		.github-corner svg {
 			fill: #222;
 			transition: all 0.3s ease-in-out;
@@ -126,17 +135,9 @@
 		<h1>Bookmarklets</h1>
 		<p>Drag these links to your bookmarks bar to use the bookmarklets.</p>
 		<div id="links">
-			<div id="full-credit">
-				<a>Full Credit</a>
-				<span>This bookmarklet will give full credit for the current assignment.</span>
-			</div>
-			<div id="assignment-feedback">
-				<a>Assignment Feedback</a>
-				<span>This bookmarklet will open a feedback panel, to save and inject commonly used feedback. A tutorial video will be uploaded soon.</span>
-			</div>
-			<div id="feedback-export-v1">
-				<a>Feedback Export V1</a>
-				<span>This bookmarklet is for anyone using the old feedback bookmarklet. It will export all of your feedback into a format that can be imported into the new assignment feedback bookmarklet.</span>
+			<div id="update-link-dates">
+				<a>Update Link Dates</a>
+				<span>This bookmarklet is a helper for updating Blackboard content links that use a weekly format, eg: Week 1 (1/11 - 1/16).</span>
 			</div>
 			<div id="github.io-redirect">
 				<a>github.io Redirect</a>
@@ -145,6 +146,25 @@
 			<div id="display-secret-message">
 				<a>Display Secret Message</a>
 				<span>This bookmarklet will find and display the secret message for JavaScript Assignment 4.</span>
+			</div>
+			<div id="open-week-tabs">
+				<a>Open Week Tabs</a>
+				<span>This bookmarklet open the weeks in blackboard as new tabs. It only works for links that start with "Week".<br>Note: You will probably need to "allow pop-ups" when you use this for the first time.</span>
+			</div>
+
+			<p>These bookmarklets are depricated (they don't work with Blackboard Ultra):</p>
+
+			<div id="full-credit" class="depricated">
+				<a>Full Credit</a>
+				<span>This bookmarklet will give full credit for the current assignment.</span>
+			</div>
+			<div id="assignment-feedback" class="depricated">
+				<a>Assignment Feedback</a>
+				<span>This bookmarklet will open a feedback panel, to save and inject commonly used feedback.</span>
+			</div>
+			<div id="feedback-export-v1" class="depricated">
+				<a>Feedback Export V1</a>
+				<span>This bookmarklet is for anyone using the old feedback bookmarklet. It will export all of your feedback into a format that can be imported into the new assignment feedback bookmarklet.</span>
 			</div>
 		</div>
 	</div>

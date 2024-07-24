@@ -176,6 +176,7 @@ if (!document.querySelector('#feedback-panel-style')) {
 
 const courseId = getCourseId()
 const assignmentId = getAssignmentId()
+console.log({ courseId, assignmentId })
 if (!courseId || !assignmentId) return console.error('Could not find course or assignment id')
 
 if (feedbackPanel && togglePanel !== false) {
