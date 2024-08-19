@@ -2,18 +2,22 @@
 
 /* CONFIG FUNCTIONS */
 // If we change LMS, hopefully we only need to change these functions
-const getCourseId = () => document.querySelector('#crumb_1')?.textContent.trim().split(' ').slice(0, -1).join(' ')
-const getAssignmentId = () => document.querySelector('#pageTitleText')?.textContent
-const getExpandButton = () => document.querySelector('#currentAttempt_gradeDataPanelLink')
-const getStudentName = () => document.querySelector('#panelbutton2 > div > div.user-navigator > div.students-pager > h3 > span:nth-child(3)')?.innerText.split(' (Attempt')[0]
-const getPointsInput = () => document.querySelector('#currentAttempt_grade')
-const getMaxPoints = () => document.querySelector('#currentAttempt_pointsPossible').textContent.slice(1)
-const getSubmitButton = () => document.querySelector('#currentAttempt_submitButton')
 
+// bb-ultra added an iframe... check for it
+const frame = document.querySelector('iframe.classic-learn-iframe')
+const parent = frame ? frame.contentWindow.document : document
+
+const getCourseId = () => parent.querySelector('#crumb_1')?.textContent.trim().split(' ').slice(0, -1).join(' ')
+const getAssignmentId = () => parent.querySelector('#pageTitleText')?.textContent
+const getExpandButton = () => parent.querySelector('#currentAttempt_gradeDataPanelLink')
+const getStudentName = () => parent.querySelector('#panelbutton2 > div > div.user-navigator > div.students-pager > h3 > span:nth-child(3)')?.innerText.split(' (Attempt')[0]
+const getPointsInput = () => parent.querySelector('#currentAttempt_grade')
+const getMaxPoints = () => parent.querySelector('#currentAttempt_pointsPossible').textContent.slice(1)
+const getSubmitButton = () => parent.querySelector('#currentAttempt_submitButton')
 
 const getFeedbackPanel = async (attempts = 0) => {
 	return new Promise((resolve, reject) => {
-		const iframe = document.querySelector('#feedbacktext_ifr')
+		const iframe = parent.querySelector('#feedbacktext_ifr')
 		if (iframe) resolve(iframe.contentWindow.document.querySelector('#tinymce'))
 		else {
 			if (attempts > 10) {
